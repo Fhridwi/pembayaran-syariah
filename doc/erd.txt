@@ -1,0 +1,22 @@
+dahsboard admin :
+1. https://drive.google.com/file/d/1kYmze5ANn-mZRkPI7NPTQXMS3vT_azqK/view?usp=sharing
+
+flow user/wali santri :
+2. 
+
+ERD database : 
+3. 
+
+flow sistem :
+4.
+
+
+
+author : camel
+position : backend devloper
+teknologi : 
+    frontend : html-css-js-boostrap
+    backend  : laravel 11-ajax
+    database : mysql
+    libewy   : banyak
+estimasi pengerjaan 2 minggu - 3 minggu
