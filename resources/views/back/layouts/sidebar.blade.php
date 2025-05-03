@@ -4,18 +4,24 @@
             <div class="sidebar-header position-relative">
                 <div class="d-flex justify-content-between align-items-center">
                     <div class="logo">
-                        <a href="index.html"><img src="{{ asset('./assets/compiled/svg/logo.svg') }}" alt="Logo" srcset=""></a>
+                        <a href="index.html"><img src="{{ asset('./assets/compiled/svg/logo.svg') }}" alt="Logo"
+                                srcset=""></a>
                     </div>
                     <div class="theme-toggle d-flex gap-2 align-items-center mt-2">
                         <!-- Theme toggle icons remain the same -->
-                        <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" aria-hidden="true" role="img" class="iconify iconify--system-uicons" width="20" height="20" preserveAspectRatio="xMidYMid meet" viewBox="0 0 21 21">
+                        <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"
+                            aria-hidden="true" role="img" class="iconify iconify--system-uicons" width="20" height="20"
+                            preserveAspectRatio="xMidYMid meet" viewBox="0 0 21 21">
                             <!-- Theme toggle SVG paths -->
                         </svg>
                         <div class="form-check form-switch fs-6">
-                            <input class="form-check-input me-0" type="checkbox" id="toggle-dark" style="cursor: pointer">
+                            <input class="form-check-input me-0" type="checkbox" id="toggle-dark"
+                                style="cursor: pointer">
                             <label class="form-check-label"></label>
                         </div>
-                        <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" aria-hidden="true" role="img" class="iconify iconify--mdi" width="20" height="20" preserveAspectRatio="xMidYMid meet" viewBox="0 0 24 24">
+                        <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"
+                            aria-hidden="true" role="img" class="iconify iconify--mdi" width="20" height="20"
+                            preserveAspectRatio="xMidYMid meet" viewBox="0 0 24 24">
                             <!-- Moon icon SVG path -->
                         </svg>
                     </div>
@@ -27,15 +33,15 @@
             <div class="sidebar-menu">
                 <ul class="menu">
                     <li class="sidebar-title">Menu</li>
-                    
+
                     <li class="sidebar-item {{ request()->routeIs('admin.dashboard') ? 'active' : '' }}">
                         <a href="{{ route('admin.dashboard') }}" class='sidebar-link'>
                             <i class="bi bi-grid-fill"></i>
                             <span>Dashboard</span>
                         </a>
                     </li>
-                    
-                <!-- User Management -->
+
+                    <!-- User Management -->
                     <li class="sidebar-item has-sub {{ request()->is('admin/user*') ? 'active' : '' }}">
                         <a href="#" class="sidebar-link">
                             <i class="bi bi-people-fill"></i>
@@ -51,9 +57,9 @@
                         </ul>
                     </li>
 
-                    
+
                     <!-- Santri Management -->
-                    <li class="sidebar-item has-sub">
+                    <li class="sidebar-item has-sub {{ request()->routeIs('santri*') ? 'active' : '' }}">
                         <a href="#" class='sidebar-link'>
                             <i class="bi bi-person-vcard-fill"></i>
                             <span>Manajemen Santri</span>
@@ -62,37 +68,40 @@
                             <li class="submenu-item">
                                 <a href="update-status.html">Update Status</a>
                             </li>
-                            <li class="submenu-item">
-                                <a href="data-santri.html">Data Santri</a>
+                            <li class="submenu-item {{ request()->routeIs('santri*') ? 'active' : '' }}">
+                                <a href="{{ route('santri.index') }}">Data Santri</a>
                             </li>
                         </ul>
                     </li>
-                    
+
                     <!-- Master Data -->
-                    <li class="sidebar-item has-sub">
+                    <li
+                        class="sidebar-item has-sub {{ request()->routeIs('tahun-ajaran*', 'kategori-tagihan*') ? 'active' : '' }}">
                         <a href="#" class='sidebar-link'>
                             <i class="bi bi-database-fill"></i>
                             <span>Data Master</span>
                         </a>
-                        <ul class="submenu">
-                            <li class="submenu-item">
-                                <a href="tahun-ajaran.html">Tahun Ajaran</a>
+                        <ul
+                            class="submenu {{ request()->routeIs('tahun-ajaran*', 'kategori-tagihan*') ? 'active' : '' }}">
+                            <li class="submenu-item {{ request()->routeIs('tahun-ajaran*') ? 'active' : '' }}">
+                                <a href="{{ route('tahun-ajaran.index') }}">Tahun Ajaran</a>
                             </li>
-                            <li class="submenu-item">
-                                <a href="kategori-tagihan.html">Kategori Tagihan</a>
+                            <li class="submenu-item {{ request()->routeIs('kategori-tagihan*') ? 'active' : '' }}">
+                                <a href="{{ route('kategori-tagihan.index') }}">Kategori Tagihan</a>
                             </li>
                         </ul>
                     </li>
-                    
+
+
                     <!-- Billing & Payments -->
-                    <li class="sidebar-item has-sub">
+                    <li class="sidebar-item has-sub {{ request()->routeIs('tagihan-santri*') ? 'active' : '' }}">
                         <a href="#" class='sidebar-link'>
                             <i class="bi bi-cash-stack"></i>
                             <span>Tagihan & pay</span>
                         </a>
                         <ul class="submenu">
-                            <li class="submenu-item">
-                                <a href="buat-tagihan.html">Buat Tagihan</a>
+                            <li class="submenu-item {{ request()->routeIs('tagihan-santri*') ? 'active' : '' }}">
+                                <a href="{{ route('tagihan-santri.index') }}">Buat Tagihan</a>
                             </li>
                             <li class="submenu-item">
                                 <a href="tagihan-massal.html">Tagihan Massal</a>
@@ -108,7 +117,7 @@
                             </li>
                         </ul>
                     </li>
-                    
+
                     <!-- Reports -->
                     <li class="sidebar-item">
                         <a href="laporan.html" class='sidebar-link'>
@@ -116,7 +125,7 @@
                             <span>Laporan</span>
                         </a>
                     </li>
-                    
+
                     <!-- Settings -->
                     <li class="sidebar-item">
                         <a href="pengaturan.html" class='sidebar-link'>
@@ -124,7 +133,7 @@
                             <span>Pengaturan</span>
                         </a>
                     </li>
-                    
+
                     <!-- Additional static items -->
                     <li class="sidebar-title">Operasional</li>
                     <li class="sidebar-item">

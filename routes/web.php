@@ -2,9 +2,13 @@
 
 use App\Http\Controllers\Auth\RegisteredUserController;
 use App\Http\Controllers\back\DashboardController;
+use App\Http\Controllers\back\KategoriTagihanController;
+use App\Http\Controllers\back\SantriController;
+use App\Http\Controllers\back\tahunAjaranController;
 use App\Http\Controllers\back\UserController;
 use App\Http\Controllers\back\UserWaliController;
 use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\back\TagihanController;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
@@ -27,6 +31,10 @@ Route::prefix('admin')->middleware(['auth','role:admin', 'verified'])->group(fun
     Route::post('user/wali', [UserWaliController::class, 'store'])->name('user.wali.store');
     Route::put('user/wali/{id}', [UserWaliController::class, 'update'])->name('user.wali.update');
     Route::delete('user/wali/{id}', [UserWaliController::class, 'destroy'])->name('user.wali.destroy');
+    Route::resource('tahun-ajaran', tahunAjaranController::class)->only(['index', 'store', 'update', 'destroy', ]);
+    Route::resource('kategori-tagihan', KategoriTagihanController::class)->only(['index', 'store', 'update', 'destroy', ]);
+    Route::resource('tagihan-santri', TagihanController::class)->only(['index', 'store', 'update', 'destroy', ]);
+    Route::resource('santri', SantriController::class);
 
 });
 

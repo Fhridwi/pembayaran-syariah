@@ -15,7 +15,7 @@ return new class extends Migration
             $table->uuid('id')->primary();
             $table->string('nama_kategori')->unique();
             $table->decimal('nominal');
-            $table->enum('jens_tagihan', ['bulanan', 'bebas']);
+            $table->enum('jenis_tagihan', ['bulanan', 'bebas']);
             $table->timestamps();
         });
     }
