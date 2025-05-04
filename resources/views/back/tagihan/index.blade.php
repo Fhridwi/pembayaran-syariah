@@ -150,7 +150,7 @@
                         <label>Santri</label>
                         <select name="santri_id" class="form-select" required>
                             @foreach ($santris as $santri)
-                                <option value="{{ $santri->id }}">{{ $santri->nama }}</option>
+                                <option value="{{ $santri->id }}">{{ $santri->nama }} - {{ $santri->user->nama_lengkap }}</option>
                             @endforeach
                         </select>
                     </div>

@@ -4,6 +4,7 @@
 
 <head>
     <meta charset="UTF-8">
+    <meta name="csrf-token" content="{{ csrf_token() }}">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Dashboard - Mazer Admin Dashboard</title>
     
@@ -19,6 +20,7 @@
   <link rel="stylesheet" href="{{ asset('./assets/compiled/css/app-dark.css') }}">
   <link rel="stylesheet" href="{{ asset('./assets/compiled/css/iconly.css') }}">
   <link rel="stylesheet" href="{{ asset('assets/extensions/sweetalert2/sweetalert2.min.css') }}">
+  @stack('css')
 </head>
 
 <body>
@@ -72,7 +74,7 @@
 <script src="{{ asset('assets/static/js/pages/datatables.js') }}"></script>
 <script src="{{ asset('assets/extensions/sweetalert2/sweetalert2.min.js') }}"></script>>
 <script src="{{ asset('assets/static/js/pages/sweetalert2.js') }}"></script>>
-
+    @stack('js')
 </body>
 
 </html>

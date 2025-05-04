@@ -13,7 +13,7 @@ class TagihanController extends Controller
 {
     public function index()
     {
-        $tagihans = Tagihan::with(['santri', 'tahun', 'kategori'])->get();
+        $tagihans = Tagihan::with(['santri', 'tahun', 'kategori'])->latest()->get();
         $santris = Santri::all();
         $tahuns = TahunAjaran::all();
         $kategoris = KategoriTagihan::all();

@@ -5,10 +5,11 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Str;
+use OwenIt\Auditing\Auditable; // <-- Import Trait Auditable
 
 class Pembayaran extends Model
 {
-    use HasFactory;
+    use HasFactory, Auditable; // <-- Gunakan Trait Auditable
 
     protected $table = 'pembayarans';
     protected $keyType = 'string';
@@ -29,7 +30,7 @@ class Pembayaran extends Model
         parent::boot();
 
         static::creating(function ($model) {
-            $model->id = (string) Str::uuid();
+            $model->id = (string) Str::uuid(); // Generate UUID untuk ID
         });
     }
 
@@ -48,5 +49,4 @@ class Pembayaran extends Model
     {
         return $this->belongsTo(User::class);
     }
-
 }

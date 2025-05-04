@@ -4,12 +4,11 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Eloquent\Concerns\HasUuids;
 use Illuminate\Support\Str;
 
 class Santri extends Model
 {
-    use HasFactory, HasUuids;
+    use HasFactory;
 
     protected $keyType = 'string';
     public $incrementing = false;
@@ -42,7 +41,6 @@ class Santri extends Model
         return $this->belongsTo(User::class);
     }
 
-    // Santri.php (Model)
     public function tagihans()
     {
         return $this->hasMany(Tagihan::class);

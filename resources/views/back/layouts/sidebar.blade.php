@@ -59,64 +59,77 @@
 
 
                     <!-- Santri Management -->
-                    <li class="sidebar-item has-sub {{ request()->routeIs('santri*') ? 'active' : '' }}">
+                    <li
+                        class="sidebar-item has-sub {{ request()->routeIs('santri*') || request()->routeIs('update-status.index') ? 'active' : '' }}">
                         <a href="#" class='sidebar-link'>
                             <i class="bi bi-person-vcard-fill"></i>
                             <span>Manajemen Santri</span>
                         </a>
                         <ul class="submenu">
-                            <li class="submenu-item">
-                                <a href="update-status.html">Update Status</a>
+                            <li class="submenu-item {{ request()->routeIs('update-status.index') ? 'active' : '' }}">
+                                <a href="{{ route('update-status.index') }}">Update Status</a>
                             </li>
-                            <li class="submenu-item {{ request()->routeIs('santri*') ? 'active' : '' }}">
+                            <li class="submenu-item {{ request()->routeIs('santri.index') ? 'active' : '' }}">
                                 <a href="{{ route('santri.index') }}">Data Santri</a>
                             </li>
                         </ul>
                     </li>
 
+
                     <!-- Master Data -->
                     <li
-                        class="sidebar-item has-sub {{ request()->routeIs('tahun-ajaran*', 'kategori-tagihan*') ? 'active' : '' }}">
+                        class="sidebar-item has-sub {{ request()->routeIs('tahun-ajaran.index', 'kategori-tagihan.index', 'bank.index', 'sekolah.index', 'program.index') ? 'active' : '' }}">
                         <a href="#" class='sidebar-link'>
                             <i class="bi bi-database-fill"></i>
                             <span>Data Master</span>
                         </a>
-                        <ul
-                            class="submenu {{ request()->routeIs('tahun-ajaran*', 'kategori-tagihan*') ? 'active' : '' }}">
-                            <li class="submenu-item {{ request()->routeIs('tahun-ajaran*') ? 'active' : '' }}">
+                        <ul class="submenu">
+                            <li class="submenu-item {{ request()->routeIs('tahun-ajaran.index') ? 'active' : '' }}">
                                 <a href="{{ route('tahun-ajaran.index') }}">Tahun Ajaran</a>
                             </li>
-                            <li class="submenu-item {{ request()->routeIs('kategori-tagihan*') ? 'active' : '' }}">
+                            <li class="submenu-item {{ request()->routeIs('kategori-tagihan.index') ? 'active' : '' }}">
                                 <a href="{{ route('kategori-tagihan.index') }}">Kategori Tagihan</a>
+                            </li>
+                            <li class="submenu-item {{ request()->routeIs('bank.index') ? 'active' : '' }}">
+                                <a href="{{ route('bank.index') }}">Info Bank</a>
+                            </li>
+                            <li class="submenu-item {{ request()->routeIs('sekolah.index') ? 'active' : '' }}">
+                                <a href="{{ route('sekolah.index') }}">Sekolah</a>
+                            </li>
+                            <li class="submenu-item {{ request()->routeIs('program.index') ? 'active' : '' }}">
+                                <a href="{{ route('program.index') }}">Program</a>
                             </li>
                         </ul>
                     </li>
 
 
+
                     <!-- Billing & Payments -->
-                    <li class="sidebar-item has-sub {{ request()->routeIs('tagihan-santri*') ? 'active' : '' }}">
+                    <li
+                        class="sidebar-item has-sub {{ request()->routeIs('tagihan-santri*') || request()->routeIs('tagihan-massal.index') ? 'active' : '' }}">
                         <a href="#" class='sidebar-link'>
                             <i class="bi bi-cash-stack"></i>
-                            <span>Tagihan & pay</span>
+                            <span>Tagihan & Pay</span>
                         </a>
                         <ul class="submenu">
-                            <li class="submenu-item {{ request()->routeIs('tagihan-santri*') ? 'active' : '' }}">
+                            <li class="submenu-item {{ request()->routeIs('tagihan-santri.index') ? 'active' : '' }}">
                                 <a href="{{ route('tagihan-santri.index') }}">Buat Tagihan</a>
                             </li>
-                            <li class="submenu-item">
-                                <a href="tagihan-massal.html">Tagihan Massal</a>
+                            <li class="submenu-item {{ request()->routeIs('tagihan-massal.index') ? 'active' : '' }}">
+                                <a href="{{ route('tagihan-massal.index') }}">Tagihan Massal</a>
                             </li>
-                            <li class="submenu-item">
+                            <li class="submenu-item {{ request()->routeIs('pembayaran') ? 'active' : '' }}">
                                 <a href="pembayaran.html">Pembayaran</a>
                             </li>
-                            <li class="submenu-item">
+                            <li class="submenu-item {{ request()->routeIs('konfirmasi-pembayaran') ? 'active' : '' }}">
                                 <a href="konfirmasi-pembayaran.html">Konfirmasi Pembayaran</a>
                             </li>
-                            <li class="submenu-item">
+                            <li class="submenu-item {{ request()->routeIs('riwayat-pembayaran') ? 'active' : '' }}">
                                 <a href="riwayat-pembayaran.html">Riwayat Pembayaran</a>
                             </li>
                         </ul>
                     </li>
+
 
                     <!-- Reports -->
                     <li class="sidebar-item">
@@ -142,11 +155,21 @@
                             <span>Backup Data</span>
                         </a>
                     </li>
-                    <li class="sidebar-item">
-                        <a href="aktivitas.html" class='sidebar-link'>
+                    <li class="sidebar-item {{ request()->routeIs('audits.index') ? 'active' : ''}}">
+                        <a href="" class='sidebar-link'>
                             <i class="bi bi-clock-history"></i>
                             <span>Log Aktivitas</span>
                         </a>
+                    </li>
+                    <!-- Logout -->
+                    <li class="sidebar-item">
+                        <form method="POST" action="{{ route('logout') }}">
+                            @csrf
+                            <button type="submit" class="sidebar-link w-100 text-start border-0 bg-transparent">
+                                <i class="bi bi-box-arrow-right"></i>
+                                <span>Logout</span>
+                            </button>
+                        </form>
                     </li>
                 </ul>
             </div>
