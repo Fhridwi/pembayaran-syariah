@@ -106,7 +106,7 @@
 
                     <!-- Billing & Payments -->
                     <li
-                        class="sidebar-item has-sub {{ request()->routeIs('tagihan-santri*') || request()->routeIs('tagihan-massal.index') ? 'active' : '' }}">
+                        class="sidebar-item has-sub {{ request()->routeIs('tagihan-santri*') || request()->routeIs('tagihan-massal.index', 'pembayaran.index', 'riwayat-pembayaran*') ? 'active' : '' }}">
                         <a href="#" class='sidebar-link'>
                             <i class="bi bi-cash-stack"></i>
                             <span>Tagihan & Pay</span>
@@ -118,14 +118,14 @@
                             <li class="submenu-item {{ request()->routeIs('tagihan-massal.index') ? 'active' : '' }}">
                                 <a href="{{ route('tagihan-massal.index') }}">Tagihan Massal</a>
                             </li>
-                            <li class="submenu-item {{ request()->routeIs('pembayaran') ? 'active' : '' }}">
-                                <a href="pembayaran.html">Pembayaran</a>
+                            <li class="submenu-item {{ request()->routeIs('pembayaran.index') ? 'active' : '' }}">
+                                <a href="{{ route('pembayaran.index') }}">Pembayaran</a>
                             </li>
                             <li class="submenu-item {{ request()->routeIs('konfirmasi-pembayaran') ? 'active' : '' }}">
                                 <a href="konfirmasi-pembayaran.html">Konfirmasi Pembayaran</a>
                             </li>
-                            <li class="submenu-item {{ request()->routeIs('riwayat-pembayaran') ? 'active' : '' }}">
-                                <a href="riwayat-pembayaran.html">Riwayat Pembayaran</a>
+                            <li class="submenu-item {{ request()->routeIs('riwayat-pembayaran*') ? 'active' : '' }}">
+                                <a href="{{ route('riwayat-pembayaran.index') }}">Riwayat Pembayaran</a>
                             </li>
                         </ul>
                     </li>

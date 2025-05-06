@@ -45,7 +45,7 @@
                                     <td>{{ $item->tahun->tahun_ajaran ?? '-' }}</td>
                                     <td>{{ $item->kategori->nama_kategori ?? '-' }}</td>
                                     <td>{{ $item->bulan_tagihan }}</td>
-                                    <td>{{ \Carbon\Carbon::parse($item->jatuh_tempo)->format('d-m-Y') }}</td>
+                                    <td>{{ \Carbon\Carbon::parse($item->jatuh_tempo)->isoFormat('D MMMM YYYY') }}</td>
                                     <td>
                                         @if ($item->status === 'lunas')
                                             <span class="badge bg-success">Lunas</span>

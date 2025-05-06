@@ -32,23 +32,34 @@ class TagihanMassalController extends Controller
             'periode' => 'required|in:bulanan,bebas',
             'nominal' => 'required|numeric|min:1',
         ]);
-
+    
         // Ambil data kategori tagihan
         $kategoriId = $request->jenis_pembayaran;
         $tahunId = $request->tahun_ajaran;
         $nominal = $request->nominal;
         $periode = $request->periode;
-
+    
+        // Cek batas waktu untuk tagihan bulanan
+        if ($periode === 'bulanan') {
+            $today = now();
+            $endOfMonth = $today->copy()->endOfMonth();
+            $daysToEnd = $today->diffInDays($endOfMonth, false);
+    
+            if ($daysToEnd > 2 || $daysToEnd < 0) {
+                return back()->with('error', 'Tagihan bulanan hanya dapat dibuat maksimal 3 hari sebelum pergantian bulan.');
+            }
+        }
+    
         // Filter santri
         $santris = Santri::query()
             ->when($request->angkatan, fn($q) => $q->where('angkatan', $request->angkatan))
             ->when($request->program, fn($q) => $q->where('program', $request->program))
-            ->when($request->status, fn($q) => $q->where('status_santri', $request->status))
+            ->when($request->status, fn($q) => $q->where('status', $request->status))
             ->get();
-
+    
         try {
             DB::beginTransaction();
-
+    
             foreach ($santris as $santri) {
                 if ($periode === 'bulanan') {
                     foreach ($request->bulan ?? [] as $bulan) {
@@ -56,7 +67,7 @@ class TagihanMassalController extends Controller
                             'santri_id' => $santri->id,
                             'tahun_id' => $tahunId,
                             'kategori_id' => $kategoriId,
-                            'bulan_tagihan' => $bulan,
+                            'bulan_tagihan' => $bulan . ' ' . date('Y'),
                             'jatuh_tempo' => now()->addDays(30),
                             'status' => 'belum',
                             'created_at' => now(),
@@ -69,15 +80,15 @@ class TagihanMassalController extends Controller
                         'santri_id' => $santri->id,
                         'tahun_id' => $tahunId,
                         'kategori_id' => $kategoriId,
-                        'bulan_tagihan' => null,
-                        'jatuh_tempo' => now()->addDays(30),
+                        'bulan_tagihan' => $request->keterangan,
+                        'jatuh_tempo' => $request->jatuh_tempo,
                         'status' => 'belum',
                         'created_at' => now(),
                         'updated_at' => now(),
                     ]);
                 }
             }
-
+    
             DB::commit();
             return back()->with('success', 'Tagihan massal berhasil ditambahkan.');
         } catch (\Exception $e) {
@@ -85,4 +96,5 @@ class TagihanMassalController extends Controller
             return back()->with('error', 'Gagal menyimpan tagihan massal: ' . $e->getMessage());
         }
     }
+    
 }

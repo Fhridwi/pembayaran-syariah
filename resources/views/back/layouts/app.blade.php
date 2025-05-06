@@ -6,7 +6,7 @@
     <meta charset="UTF-8">
     <meta name="csrf-token" content="{{ csrf_token() }}">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Dashboard - Mazer Admin Dashboard</title>
+    <title>Dashboard - SyariahKu</title>
     
     
     
@@ -37,7 +37,7 @@
             </header>
             
 <div class="page-heading">
-    <h3>Profile Statistics</h3>
+    <h6>{{ Auth::user()->nama_lengkap}} - {{ Auth::user()->no_hp }}</h6>
 </div> 
 <div class="page-content"> 
     @yield('content')

@@ -5,7 +5,9 @@ use App\Http\Controllers\Auth\RegisteredUserController;
 use App\Http\Controllers\back\BankController;
 use App\Http\Controllers\back\DashboardController;
 use App\Http\Controllers\back\KategoriTagihanController;
+use App\Http\Controllers\back\PembayaranController;
 use App\Http\Controllers\back\ProgramController;
+use App\Http\Controllers\back\RiwayatPembayaranController;
 use App\Http\Controllers\back\SantriController;
 use App\Http\Controllers\back\SekolahController;
 use App\Http\Controllers\back\tahunAjaranController;
@@ -14,11 +16,9 @@ use App\Http\Controllers\back\UserWaliController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\back\TagihanController;
 use App\Http\Controllers\back\TagihanMassalController;
+use App\Http\Controllers\front\DashboardWaliController;
+use App\Http\Controllers\front\TagihanWaliController;
 use Illuminate\Support\Facades\Route;
-
-Route::get('/', function () {
-    return view('welcome');
-});
 
 Route::get('/verify-email', [RegisteredUserController::class, 'showVerificationPage'])->name('verification.notice');
 
@@ -46,11 +46,18 @@ Route::prefix('admin')->middleware(['auth','role:admin'])->group(function() {
     Route::resource('sekolah', SekolahController::class)->only(['index', 'store', 'update', 'destroy', ]);
     Route::resource('program', ProgramController::class)->only(['index', 'store', 'update', 'destroy', ]);
     Route::resource('tagihan-massal', TagihanMassalController::class)->only(['index', 'store', 'update', 'destroy', ]);
+    Route::resource('pembayaran', PembayaranController::class)->only(['index', 'store' ]);
+    Route::get('pembayaran/tagihan/{santri_id}', [PembayaranController::class, 'getTagihan'])->name('pembayaran.getTagihanBySantri');
+    Route::resource('riwayat-pembayaran', RiwayatPembayaranController::class);
 
 });
 
-Route::get('/user/dashboard', function() {
-    view('front.dashboard.dashboard');
-})->name('front.dashboard');
+Route::prefix('wali')->middleware(['auth', 'role:admin,user'])->group(function() {
+    Route::get('dashboard', [DashboardWaliController::class, 'index'])->name('user.dashboard');
+    Route::post('pembayaran/store', [DashboardWaliController::class, 'storePembayaran'])->name('wali.pembayaran.store');
+
+});
+
+
 
 require __DIR__.'/auth.php';

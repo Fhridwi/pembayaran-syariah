@@ -43,11 +43,12 @@ class Santri extends Model
 
     public function tagihans()
     {
-        return $this->hasMany(Tagihan::class);
+        return $this->hasMany(Tagihan::class, 'santri_id', 'id');
     }
 
     public function pembayarans()
     {
         return $this->hasMany(Pembayaran::class);
     }
+    
 }

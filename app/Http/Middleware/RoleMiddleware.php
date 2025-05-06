@@ -4,6 +4,7 @@ namespace App\Http\Middleware;
 
 use Closure;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Symfony\Component\HttpFoundation\Response;
 
 class RoleMiddleware
@@ -17,15 +18,23 @@ class RoleMiddleware
      * @return \Symfony\Component\HttpFoundation\Response
      */
     public function handle(Request $request, Closure $next, ...$roles): Response
-{
-    /** @var \Illuminate\Contracts\Auth\Guard $auth */
-    $auth = auth();
+    {
+        $user = Auth::user();
 
-    if (!$auth->check() || !in_array($auth->user()->role, $roles)) {
-        abort(403, 'Akses ditolak.');
+        if (!$user || !in_array($user->role, $roles)) {
+            // Redirect sesuai dengan rolenya
+            switch ($user->role ?? 'default') {
+                case 'admin':
+                    return redirect()->route('admin.dashboard');
+                case 'bendahara':
+                    return redirect()->route('bendahara.dashboard');
+                case 'pengasuh':
+                    return redirect()->route('pengasuh.dashboard');
+                default:
+                    return redirect()->route('user.dashboard');
+            }
+        }
+
+        return $next($request);
     }
-
-    return $next($request);
-}
-
 }

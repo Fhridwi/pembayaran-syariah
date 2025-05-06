@@ -58,10 +58,16 @@ class UserController extends Controller
 public function destroy($id)
 {
     $user = User::findOrFail($id);
+
+    if ($user->email == 'admin@admin.com') {
+        return redirect()->route('user.index')->with('error', 'Tidak bisa menghapus pengguna dengan email admin@admin.com.');
+    }
+    
     $user->delete();
 
     return redirect()->route('user.index')->with('success', 'Data pengguna berhasil dihapus.');
 }
+
 
 
 }

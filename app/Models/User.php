@@ -23,7 +23,7 @@ class User extends Authenticatable implements MustVerifyEmail
         'no_hp',
         'alamat',
         'role',
-        'otp' // pastikan kolom otp ada dalam fillable
+        'otp'
     ];
 
     protected $hidden = [
@@ -39,6 +39,10 @@ class User extends Authenticatable implements MustVerifyEmail
 
     public function santri() {
         return $this->hasMany(Santri::class,'user_id');
+    }
+
+    public function pembayaranDiterima() {
+        return $this->hasMany(Pembayaran::class, 'penerima_id');
     }
 }
 

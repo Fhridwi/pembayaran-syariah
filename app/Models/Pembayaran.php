@@ -5,25 +5,33 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Str;
-use OwenIt\Auditing\Auditable; // <-- Import Trait Auditable
 
 class Pembayaran extends Model
 {
-    use HasFactory, Auditable; // <-- Gunakan Trait Auditable
+    use HasFactory;
 
     protected $table = 'pembayarans';
     protected $keyType = 'string';
     public $incrementing = false;
 
-    protected $fillable = [
-        'id',
-        'tagihan_id',
-        'user_id',
-        'nominal_bayar',
-        'tanggal_bayar',
-        'bukti_bayar',
-        'status',
-    ];
+   
+protected $fillable = [
+    'id',
+    'nomor_pembayaran',
+    'tagihan_id',
+    'santri_id',
+    'user_id',
+    'penerima_id',
+    'nominal_bayar',
+    'tanggal_bayar',
+    'metode_pembayaran',
+    'bank_pengirim',
+    'nama_pengirim',
+    'bukti_bayar',
+    'status',
+    'keterangan_status',
+];
+
 
     protected static function boot()
     {
@@ -48,5 +56,12 @@ class Pembayaran extends Model
     public function user()
     {
         return $this->belongsTo(User::class);
+    }
+
+    // app/Models/Pembayaran.php
+
+    public function santri()
+    {
+        return $this->belongsTo(Santri::class, 'santri_id', 'id');
     }
 }
