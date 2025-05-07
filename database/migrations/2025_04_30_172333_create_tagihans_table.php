@@ -20,7 +20,7 @@ return new class extends Migration
             $table->uuid('kategori_id');
             $table->foreign('kategori_id')->references('id')->on('kategori_tagihans')->onDelete('cascade');
             $table->date('jatuh_tempo');
-            $table->enum('status', ['belum', 'lunas'])->default('belum');
+            $table->enum('status', ['belum', 'lunas','diproses'])->default('belum');
             $table->timestamps();
         });
     }
