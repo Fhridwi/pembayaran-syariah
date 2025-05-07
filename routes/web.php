@@ -5,6 +5,7 @@ use App\Http\Controllers\Auth\RegisteredUserController;
 use App\Http\Controllers\back\BankController;
 use App\Http\Controllers\back\DashboardController;
 use App\Http\Controllers\back\KategoriTagihanController;
+use App\Http\Controllers\back\KonfirmasiPembayaranController;
 use App\Http\Controllers\back\PembayaranController;
 use App\Http\Controllers\back\ProgramController;
 use App\Http\Controllers\back\RiwayatPembayaranController;
@@ -48,14 +49,17 @@ Route::prefix('admin')->middleware(['auth','role:admin'])->group(function() {
     Route::resource('tagihan-massal', TagihanMassalController::class)->only(['index', 'store', 'update', 'destroy', ]);
     Route::resource('pembayaran', PembayaranController::class)->only(['index', 'store' ]);
     Route::get('pembayaran/tagihan/{santri_id}', [PembayaranController::class, 'getTagihan'])->name('pembayaran.getTagihanBySantri');
-    Route::resource('riwayat-pembayaran', RiwayatPembayaranController::class);
+    Route::resource('riwayat-pembayaran', RiwayatPembayaranController::class)->only(['index']);
+    Route::get('konfirmasi-pembayaran', [KonfirmasiPembayaranController::class, 'index'])->name('konfirmasi.pembayaran.index');
+    Route::get('konfirmasi-pembayaran/{id}', [KonfirmasiPembayaranController::class, 'show'])->name('konfirmasi-pembayaran.show');
+    Route::post('konfirmasi-pembayaran/store', [KonfirmasiPembayaranController::class, 'store'])->name('konfirmasi-pembayaran.store');
 
 });
 
 Route::prefix('wali')->middleware(['auth', 'role:admin,user'])->group(function() {
     Route::get('dashboard', [DashboardWaliController::class, 'index'])->name('user.dashboard');
     Route::post('pembayaran/store', [DashboardWaliController::class, 'storePembayaran'])->name('wali.pembayaran.store');
-
+    
 });
 
 

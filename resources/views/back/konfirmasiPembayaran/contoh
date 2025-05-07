@@ -1,0 +1,404 @@
+@extends('back.layouts.app')
+
+@section('content')
+    <script src="https://cdn.tailwindcss.com"></script>
+
+<div class="bg-gray-50 min-h-screen p-6">
+    <div class="max-w-7xl mx-auto">
+        <!-- Header -->
+        <div class="mb-8 flex justify-between items-center">
+            <div>
+                <h1 class="text-2xl font-bold text-gray-800">Konfirmasi Pembayaran Santri</h1>
+                <p class="text-gray-600">Daftar pembayaran yang membutuhkan verifikasi</p>
+            </div>
+            <div class="flex space-x-3">
+                <div class="relative">
+                    <select class="appearance-none bg-white border border-gray-300 rounded-lg px-4 py-2 pr-8 focus:outline-none focus:ring-2 focus:ring-primary-500">
+                        <option>Semua Status</option>
+                        <option>Menunggu Verifikasi</option>
+                        <option>Diterima</option>
+                        <option>Ditolak</option>
+                    </select>
+                    <div class="pointer-events-none absolute inset-y-0 right-0 flex items-center px-2 text-gray-700">
+                        <svg class="h-4 w-4" fill="currentColor" viewBox="0 0 20 20">
+                            <path fill-rule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clip-rule="evenodd"></path>
+                        </svg>
+                    </div>
+                </div>
+                <button class="bg-primary-500 hover:bg-primary-600 text-white px-4 py-2 rounded-lg flex items-center">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-2" viewBox="0 0 20 20" fill="currentColor">
+                        <path fill-rule="evenodd" d="M3 17a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1zm3.293-7.707a1 1 0 011.414 0L9 10.586V3a1 1 0 112 0v7.586l1.293-1.293a1 1 0 111.414 1.414l-3 3a1 1 0 01-1.414 0l-3-3a1 1 0 010-1.414z" clip-rule="evenodd" />
+                    </svg>
+                    Export
+                </button>
+            </div>
+        </div>
+
+        <!-- Stats Cards -->
+        <div class="grid grid-cols-1 md:grid-cols-4 gap-4 mb-6">
+            <div class="bg-white p-4 rounded-lg shadow border-l-4 border-blue-500">
+                <div class="text-gray-500 text-sm">Total Pembayaran</div>
+                <div class="text-2xl font-bold">24</div>
+            </div>
+            <div class="bg-white p-4 rounded-lg shadow border-l-4 border-yellow-500">
+                <div class="text-gray-500 text-sm">Menunggu</div>
+                <div class="text-2xl font-bold">8</div>
+            </div>
+            <div class="bg-white p-4 rounded-lg shadow border-l-4 border-green-500">
+                <div class="text-gray-500 text-sm">Diterima</div>
+                <div class="text-2xl font-bold">14</div>
+            </div>
+            <div class="bg-white p-4 rounded-lg shadow border-l-4 border-red-500">
+                <div class="text-gray-500 text-sm">Ditolak</div>
+                <div class="text-2xl font-bold">2</div>
+            </div>
+        </div>
+
+        <!-- Payment List -->
+   <div class="bg-white rounded-lg shadow overflow-hidden">
+        <div class="overflow-x-auto">
+            <table class="table table-striped">
+                <thead class="table-light">
+                    <tr>
+                        <th scope="col">ID Pembayaran</th>
+                        <th scope="col">Santri</th>
+                        <th scope="col">Tagihan</th>
+                        <th scope="col">Jumlah</th>
+                        <th scope="col">Metode</th>
+                        <th scope="col">Tanggal</th>
+                        <th scope="col">Status</th>
+                        <th scope="col" class="text-end">Aksi</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <!-- Dummy Data 1 -->
+                    <tr>
+                        <td>#PYM-001</td>
+                        <td>
+                            <div class="d-flex align-items-center">
+                                <div class="flex-shrink-0">
+                                    <img src="https://ui-avatars.com/api/?name=Ahmad+Syafii&background=random" alt="" class="rounded-circle" width="40">
+                                </div>
+                                <div class="ms-3">
+                                    <div>Ahmad Syafii</div>
+                                    <div class="text-muted">Kelas 3A</div>
+                                </div>
+                            </div>
+                        </td>
+                        <td>SPP Juli 2023</td>
+                        <td>Rp 350.000</td>
+                        <td>
+                            <span class="badge bg-primary">Transfer BCA</span>
+                        </td>
+                        <td>15 Jul 2023</td>
+                        <td>
+                            <span class="badge bg-warning text-dark">Menunggu</span>
+                        </td>
+                        <td class="text-end">
+                            <button class="btn btn-sm btn-link text-primary" onclick="openDetailModal('PYM-001')">Detail</button>
+                            <button class="btn btn-sm btn-link text-success">Terima</button>
+                            <button class="btn btn-sm btn-link text-danger">Tolak</button>
+                        </td>
+                    </tr>
+
+                    <!-- Dummy Data 2 -->
+                    <tr>
+                        <td>#PYM-002</td>
+                        <td>
+                            <div class="d-flex align-items-center">
+                                <div class="flex-shrink-0">
+                                    <img src="https://ui-avatars.com/api/?name=Fatimah+Azahra&background=random" alt="" class="rounded-circle" width="40">
+                                </div>
+                                <div class="ms-3">
+                                    <div>Fatimah Azahra</div>
+                                    <div class="text-muted">Kelas 2B</div>
+                                </div>
+                            </div>
+                        </td>
+                        <td>Uang Gedung</td>
+                        <td>Rp 1.500.000</td>
+                        <td>
+                            <span class="badge bg-success">QRIS</span>
+                        </td>
+                        <td>14 Jul 2023</td>
+                        <td>
+                            <span class="badge bg-warning text-dark">Menunggu</span>
+                        </td>
+                        <td class="text-end">
+                            <button class="btn btn-sm btn-link text-primary" onclick="openDetailModal('PYM-002')">Detail</button>
+                            <button class="btn btn-sm btn-link text-success">Terima</button>
+                            <button class="btn btn-sm btn-link text-danger">Tolak</button>
+                        </td>
+                    </tr>
+
+                    <!-- Dummy Data 3 (Already Accepted) -->
+                    <tr class="table-secondary">
+                        <td>#PYM-003</td>
+                        <td>
+                            <div class="d-flex align-items-center">
+                                <div class="flex-shrink-0">
+                                    <img src="https://ui-avatars.com/api/?name=Muhammad+Rizki&background=random" alt="" class="rounded-circle" width="40">
+                                </div>
+                                <div class="ms-3">
+                                    <div>Muhammad Rizki</div>
+                                    <div class="text-muted">Kelas 4C</div>
+                                </div>
+                            </div>
+                        </td>
+                        <td>SPP Juni 2023</td>
+                        <td>Rp 350.000</td>
+                        <td>
+                            <span class="badge bg-warning">Tunai</span>
+                        </td>
+                        <td>10 Jun 2023</td>
+                        <td>
+                            <span class="badge bg-success">Diterima</span>
+                        </td>
+                        <td class="text-end">
+                            <button class="btn btn-sm btn-link text-primary" onclick="openDetailModal('PYM-003')">Detail</button>
+                            <button class="btn btn-sm btn-link text-muted" disabled>Terima</button>
+                            <button class="btn btn-sm btn-link text-muted" disabled>Tolak</button>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+        <!-- Pagination -->
+        <div class="mt-6 flex items-center justify-between">
+            <div class="text-sm text-gray-500">
+                Menampilkan <span class="font-medium">1</span> sampai <span class="font-medium">3</span> dari <span class="font-medium">8</span> pembayaran
+            </div>
+            <div class="flex space-x-2">
+                <button class="px-3 py-1 rounded-md border border-gray-300 bg-white text-sm font-medium text-gray-700 hover:bg-gray-50">
+                    Sebelumnya
+                </button>
+                <button class="px-3 py-1 rounded-md border border-gray-300 bg-white text-sm font-medium text-gray-700 hover:bg-gray-50">
+                    1
+                </button>
+                <button class="px-3 py-1 rounded-md border border-primary-500 bg-primary-50 text-sm font-medium text-primary-600">
+                    2
+                </button>
+                <button class="px-3 py-1 rounded-md border border-gray-300 bg-white text-sm font-medium text-gray-700 hover:bg-gray-50">
+                    3
+                </button>
+                <button class="px-3 py-1 rounded-md border border-gray-300 bg-white text-sm font-medium text-gray-700 hover:bg-gray-50">
+                    Selanjutnya
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Detail Modal -->
+    <div id="detailModal" class="fixed inset-0 bg-black bg-opacity-50 z-50 hidden flex items-center justify-center p-4">
+        <div class="bg-white rounded-lg w-full max-w-2xl max-h-[90vh] overflow-y-auto">
+            <div class="p-6">
+                <div class="flex justify-between items-center mb-4">
+                    <h3 class="text-xl font-bold text-gray-800">Detail Pembayaran #<span id="paymentId"></span></h3>
+                    <button onclick="closeDetailModal()" class="text-gray-500 hover:text-gray-700">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+                        </svg>
+                    </button>
+                </div>
+
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
+                    <div>
+                        <h4 class="font-medium text-gray-700 mb-2">Informasi Santri</h4>
+                        <div class="bg-gray-50 p-4 rounded-lg">
+                            <div class="flex items-center mb-3">
+                                <img id="studentPhoto" class="h-12 w-12 rounded-full mr-3" src="" alt="">
+                                <div>
+                                    <div id="studentName" class="font-medium"></div>
+                                    <div id="studentClass" class="text-sm text-gray-500"></div>
+                                </div>
+                            </div>
+                            <div class="space-y-2 text-sm">
+                                <div class="flex justify-between">
+                                    <span class="text-gray-500">NIS:</span>
+                                    <span id="studentNis" class="font-medium"></span>
+                                </div>
+                                <div class="flex justify-between">
+                                    <span class="text-gray-500">Wali Santri:</span>
+                                    <span id="studentParent" class="font-medium"></span>
+                                </div>
+                                <div class="flex justify-between">
+                                    <span class="text-gray-500">No. HP Wali:</span>
+                                    <span id="parentPhone" class="font-medium"></span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div>
+                        <h4 class="font-medium text-gray-700 mb-2">Informasi Pembayaran</h4>
+                        <div class="bg-gray-50 p-4 rounded-lg">
+                            <div class="space-y-2 text-sm">
+                                <div class="flex justify-between">
+                                    <span class="text-gray-500">Jenis Tagihan:</span>
+                                    <span id="paymentType" class="font-medium"></span>
+                                </div>
+                                <div class="flex justify-between">
+                                    <span class="text-gray-500">Periode:</span>
+                                    <span id="paymentPeriod" class="font-medium"></span>
+                                </div>
+                                <div class="flex justify-between">
+                                    <span class="text-gray-500">Jumlah:</span>
+                                    <span id="paymentAmount" class="font-medium"></span>
+                                </div>
+                                <div class="flex justify-between">
+                                    <span class="text-gray-500">Metode:</span>
+                                    <span id="paymentMethod" class="font-medium"></span>
+                                </div>
+                                <div class="flex justify-between">
+                                    <span class="text-gray-500">Tanggal Bayar:</span>
+                                    <span id="paymentDate" class="font-medium"></span>
+                                </div>
+                                <div class="flex justify-between">
+                                    <span class="text-gray-500">Status:</span>
+                                    <span id="paymentStatus" class="font-medium"></span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="mb-6">
+                    <h4 class="font-medium text-gray-700 mb-2">Bukti Pembayaran</h4>
+                    <div class="bg-gray-50 p-4 rounded-lg">
+                        <img id="paymentProof" src="" alt="Bukti Pembayaran" class="w-full h-auto rounded-lg border border-gray-200">
+                    </div>
+                </div>
+
+                <div class="mb-6">
+                    <h4 class="font-medium text-gray-700 mb-2">Catatan</h4>
+                    <textarea class="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-transparent" rows="3" placeholder="Tambahkan catatan jika diperlukan..."></textarea>
+                </div>
+
+                <div class="flex justify-end space-x-3">
+                    <button onclick="rejectPayment()" class="px-4 py-2 border border-red-500 text-red-500 rounded-lg hover:bg-red-50">Tolak Pembayaran</button>
+                    <button onclick="approvePayment()" class="px-4 py-2 bg-primary-500 text-white rounded-lg hover:bg-primary-600">Terima Pembayaran</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    // Dummy data for modal
+    const paymentData = {
+        'PYM-001': {
+            student: {
+                photo: 'https://ui-avatars.com/api/?name=Ahmad+Syafii&background=random',
+                name: 'Ahmad Syafii',
+                class: 'Kelas 3A',
+                nis: '2023001',
+                parent: 'Budi Santoso',
+                phone: '081234567890'
+            },
+            payment: {
+                type: 'SPP Juli 2023',
+                period: 'Juli 2023',
+                amount: 'Rp 350.000',
+                method: 'Transfer BCA',
+                date: '15 Juli 2023',
+                status: 'Menunggu Verifikasi',
+                proof: 'https://via.placeholder.com/600x400?text=Bukti+Transfer'
+            }
+        },
+        'PYM-002': {
+            student: {
+                photo: 'https://ui-avatars.com/api/?name=Fatimah+Azahra&background=random',
+                name: 'Fatimah Azahra',
+                class: 'Kelas 2B',
+                nis: '2023002',
+                parent: 'Siti Aminah',
+                phone: '081298765432'
+            },
+            payment: {
+                type: 'Uang Gedung',
+                period: 'Tahun Ajaran 2023/2024',
+                amount: 'Rp 1.500.000',
+                method: 'QRIS',
+                date: '14 Juli 2023',
+                status: 'Menunggu Verifikasi',
+                proof: 'https://via.placeholder.com/600x400?text=Bukti+QRIS'
+            }
+        },
+        'PYM-003': {
+            student: {
+                photo: 'https://ui-avatars.com/api/?name=Muhammad+Rizki&background=random',
+                name: 'Muhammad Rizki',
+                class: 'Kelas 4C',
+                nis: '2022005',
+                parent: 'Andi Wijaya',
+                phone: '081312345678'
+            },
+            payment: {
+                type: 'SPP Juni 2023',
+                period: 'Juni 2023',
+                amount: 'Rp 350.000',
+                method: 'Tunai',
+                date: '10 Juni 2023',
+                status: 'Diterima',
+                proof: 'https://via.placeholder.com/600x400?text=Kwitansi+Tunai'
+            }
+        }
+    };
+
+    function openDetailModal(paymentId) {
+        const data = paymentData[paymentId];
+        
+        // Set payment ID
+        document.getElementById('paymentId').textContent = paymentId;
+        
+        // Set student data
+        document.getElementById('studentPhoto').src = data.student.photo;
+        document.getElementById('studentName').textContent = data.student.name;
+        document.getElementById('studentClass').textContent = data.student.class;
+        document.getElementById('studentNis').textContent = data.student.nis;
+        document.getElementById('studentParent').textContent = data.student.parent;
+        document.getElementById('parentPhone').textContent = data.student.phone;
+        
+        // Set payment data
+        document.getElementById('paymentType').textContent = data.payment.type;
+        document.getElementById('paymentPeriod').textContent = data.payment.period;
+        document.getElementById('paymentAmount').textContent = data.payment.amount;
+        document.getElementById('paymentMethod').textContent = data.payment.method;
+        document.getElementById('paymentDate').textContent = data.payment.date;
+        document.getElementById('paymentStatus').textContent = data.payment.status;
+        document.getElementById('paymentProof').src = data.payment.proof;
+        
+        // Show modal
+        document.getElementById('detailModal').classList.remove('hidden');
+        document.body.style.overflow = 'hidden';
+    }
+
+    function closeDetailModal() {
+        document.getElementById('detailModal').classList.add('hidden');
+        document.body.style.overflow = 'auto';
+    }
+
+    function approvePayment() {
+        const paymentId = document.getElementById('paymentId').textContent;
+        alert(`Pembayaran ${paymentId} telah diterima!`);
+        closeDetailModal();
+        // In real app, you would send AJAX request to update status
+    }
+
+    function rejectPayment() {
+        const paymentId = document.getElementById('paymentId').textContent;
+        alert(`Pembayaran ${paymentId} telah ditolak!`);
+        closeDetailModal();
+        // In real app, you would send AJAX request to update status
+    }
+
+    // Close modal when clicking outside
+    window.addEventListener('click', function(event) {
+        if (event.target === document.getElementById('detailModal')) {
+            closeDetailModal();
+        }
+    });
+</script>
+@endsection

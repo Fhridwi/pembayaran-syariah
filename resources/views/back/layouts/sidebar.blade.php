@@ -105,30 +105,36 @@
 
 
                     <!-- Billing & Payments -->
-                    <li
-                        class="sidebar-item has-sub {{ request()->routeIs('tagihan-santri*') || request()->routeIs('tagihan-massal.index', 'pembayaran.index', 'riwayat-pembayaran*') ? 'active' : '' }}">
-                        <a href="#" class='sidebar-link'>
-                            <i class="bi bi-cash-stack"></i>
-                            <span>Tagihan & Pay</span>
-                        </a>
-                        <ul class="submenu">
-                            <li class="submenu-item {{ request()->routeIs('tagihan-santri.index') ? 'active' : '' }}">
-                                <a href="{{ route('tagihan-santri.index') }}">Buat Tagihan</a>
-                            </li>
-                            <li class="submenu-item {{ request()->routeIs('tagihan-massal.index') ? 'active' : '' }}">
-                                <a href="{{ route('tagihan-massal.index') }}">Tagihan Massal</a>
-                            </li>
-                            <li class="submenu-item {{ request()->routeIs('pembayaran.index') ? 'active' : '' }}">
-                                <a href="{{ route('pembayaran.index') }}">Pembayaran</a>
-                            </li>
-                            <li class="submenu-item {{ request()->routeIs('konfirmasi-pembayaran') ? 'active' : '' }}">
-                                <a href="konfirmasi-pembayaran.html">Konfirmasi Pembayaran</a>
-                            </li>
-                            <li class="submenu-item {{ request()->routeIs('riwayat-pembayaran*') ? 'active' : '' }}">
-                                <a href="{{ route('riwayat-pembayaran.index') }}">Riwayat Pembayaran</a>
-                            </li>
-                        </ul>
-                    </li>
+                    <li class="sidebar-item has-sub 
+                    {{ request()->routeIs('tagihan-santri*') 
+                        || request()->routeIs('tagihan-massal.index') 
+                        || request()->routeIs('pembayaran.index') 
+                        || request()->routeIs('konfirmasi.pembayaran.index') 
+                        || request()->routeIs('riwayat-pembayaran*') 
+                        ? 'active' : '' }}">
+                    <a href="#" class="sidebar-link">
+                        <i class="bi bi-cash-stack"></i>
+                        <span>Tagihan & Pay</span>
+                    </a>
+                    <ul class="submenu">
+                        <li class="submenu-item {{ request()->routeIs('tagihan-santri.index') ? 'active' : '' }}">
+                            <a href="{{ route('tagihan-santri.index') }}">Buat Tagihan</a>
+                        </li>
+                        <li class="submenu-item {{ request()->routeIs('tagihan-massal.index') ? 'active' : '' }}">
+                            <a href="{{ route('tagihan-massal.index') }}">Tagihan Massal</a>
+                        </li>
+                        <li class="submenu-item {{ request()->routeIs('pembayaran.index') ? 'active' : '' }}">
+                            <a href="{{ route('pembayaran.index') }}">Pembayaran</a>
+                        </li>
+                        <li class="submenu-item {{ request()->routeIs('konfirmasi.pembayaran.index') ? 'active' : '' }}">
+                            <a href="{{ route('konfirmasi.pembayaran.index') }}">Konfirmasi Pembayaran</a>
+                        </li>
+                        <li class="submenu-item {{ request()->routeIs('riwayat-pembayaran*') ? 'active' : '' }}">
+                            <a href="{{ route('riwayat-pembayaran.index') }}">Riwayat Pembayaran</a>
+                        </li>
+                    </ul>
+                </li>
+                
 
 
                     <!-- Reports -->
