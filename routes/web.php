@@ -1,6 +1,6 @@
 <?php
 
-use App\Http\Controllers\Api\updateSantriController;
+use App\Http\Controllers\back\updateSantriController;
 use App\Http\Controllers\Auth\RegisteredUserController;
 use App\Http\Controllers\back\BankController;
 use App\Http\Controllers\back\DashboardController;
@@ -14,6 +14,7 @@ use App\Http\Controllers\back\SekolahController;
 use App\Http\Controllers\back\tahunAjaranController;
 use App\Http\Controllers\back\UserController;
 use App\Http\Controllers\back\UserWaliController;
+use App\Http\Controllers\front\RiwayatPembayaranWaliController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\back\TagihanController;
 use App\Http\Controllers\back\TagihanMassalController;
@@ -42,7 +43,7 @@ Route::prefix('admin')->middleware(['auth','role:admin'])->group(function() {
     Route::resource('tagihan-santri', TagihanController::class)->only(['index', 'store', 'update', 'destroy', ]);
     Route::resource('santri', SantriController::class);
     Route::resource('update-status', updateSantriController::class)->only(['index']);
-    Route::post('santri/update', [updateSantriController::class, 'ubahStatus'])->name('update.statusSantri');
+    Route::post('/update-status', [updateSantriController::class, 'ubahStatus'])->name('update.statusSantri');
     Route::resource('bank', BankController::class)->only(['index', 'store', 'update', 'destroy']);
     Route::resource('sekolah', SekolahController::class)->only(['index', 'store', 'update', 'destroy', ]);
     Route::resource('program', ProgramController::class)->only(['index', 'store', 'update', 'destroy', ]);
@@ -56,9 +57,10 @@ Route::prefix('admin')->middleware(['auth','role:admin'])->group(function() {
 
 });
 
-Route::prefix('wali')->middleware(['auth', 'role:admin,user'])->group(function() {
+Route::prefix('wali')->middleware(['auth', 'role:user'])->group(function() {
     Route::get('dashboard', [DashboardWaliController::class, 'index'])->name('user.dashboard');
     Route::post('pembayaran/store', [DashboardWaliController::class, 'storePembayaran'])->name('wali.pembayaran.store');
+    Route::get('riwayat-menu', [RiwayatPembayaranWaliController::class, 'index'])->name('user.riwayat.index');
     
 });
 

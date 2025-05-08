@@ -27,9 +27,10 @@ class TagihanController extends Controller
             'santri_id'     => 'required|exists:santris,id',
             'tahun_id'      => 'required|exists:tahun_ajarans,id',
             'kategori_id'   => 'required|exists:kategori_tagihans,id',
-            'bulan_tagihan' => 'required|string|max:20',
+            'bulan_tagihan' => 'nullable|string|max:20',
             'jatuh_tempo'   => 'required|date',
         ]);
+
     
         $existing = Tagihan::where('santri_id', $data['santri_id'])
             ->where('tahun_id', $data['tahun_id'])

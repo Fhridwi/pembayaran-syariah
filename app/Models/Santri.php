@@ -50,5 +50,9 @@ class Santri extends Model
     {
         return $this->hasMany(Pembayaran::class);
     }
-    
+
+    public function programs()
+    {
+        return $this->belongsTo(\App\Models\Program::class);
+    }
 }

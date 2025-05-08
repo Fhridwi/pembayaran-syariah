@@ -87,7 +87,7 @@
                                         <label>Santri</label>
                                         <select name="santri_id" class="form-select" required>
                                             @foreach ($santris as $santri)
-                                                <option value="{{ $santri->id }}" {{ $santri->id == $item->santri_id ? 'selected' : '' }}>{{ $santri->nama }}</option>
+                                                <option value="{{ $santri->id }}" {{ $santri->id == $item->santri_id ? 'selected' : '' }}>{{ $santri->nama }} - {{ $santri->user->email }}</option>
                                             @endforeach
                                         </select>
                                     </div>

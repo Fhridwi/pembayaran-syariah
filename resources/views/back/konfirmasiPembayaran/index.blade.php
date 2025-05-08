@@ -1,18 +1,26 @@
 @extends('back.layouts.app')
 
 @section('content')
-    <div class="d-flex justify-content-between mb-4">
-        <h3 class="page-title">Statistik Pembayaran</h3>
-        <div class="d-flex align-items-center">
-            <label for="filter" class="me-2">Filter:</label>
-            <select id="filter" class="form-select">
-                <option value="all">Semua</option>
-                <option value="pending">Menunggu</option>
-                <option value="accepted">Diterima</option>
-                <option value="rejected">Ditolak</option>
-            </select>
-        </div>
-    </div>
+<div class="d-flex justify-content-between mb-4">
+    <h3 class="page-title">Statistik Pembayaran</h3>
+    <form method="GET" class="d-flex align-items-center">
+        <label for="bulan" class="me-2">Bulan:</label>
+        <input type="month" name="bulan" id="bulan"
+               value="{{ $bulan }}"
+               class="form-control me-3"
+               onchange="this.form.submit()">
+
+        <label for="filter" class="me-2">Status:</label>
+        <select id="filter" name="status" class="form-select me-2" onchange="this.form.submit()">
+            <option value="all" {{ $statusFilter == 'all' ? 'selected' : '' }}>Semua</option>
+            <option value="pending" {{ $statusFilter == 'pending' ? 'selected' : '' }}>Menunggu</option>
+            <option value="diterima" {{ $statusFilter == 'diterima' ? 'selected' : '' }}>Diterima</option>
+            <option value="tolak" {{ $statusFilter == 'tolak' ? 'selected' : '' }}>Ditolak</option>
+        </select>
+    </form>
+</div>
+
+
     <div class="row">
         <div class="col-6 col-lg-3 col-md-6">
             <div class="card">
@@ -129,16 +137,17 @@
                     <td>
                         <div class="d-flex align-items-center">
                             <div class="avatar avatar-lg me-3">
-                                <img src="{{ asset($pembayaran->santri->foto ?: 'assets/compiled/jpg/2.jpg') }}"
-                                    alt="Foto Santri">
+                                <img src="{{ $pembayaran->santri->foto ? asset('storage/' . $pembayaran->santri->foto) : asset('assets/compiled/jpg/2.jpg') }}"
+                                     alt="Foto Santri"
+                                     class="rounded-circle"
+                                     style="width: 60px; height: 60px; object-fit: cover;">
                             </div>
                             <div class="d-flex flex-column">
                                 <span class="fw-bold">{{ $pembayaran->santri->nama }}</span>
                                 <span class="text-muted small">{{ $pembayaran->santri->program ?? '-' }}</span>
                             </div>
                         </div>
-                    </td>
-        
+                    </td>                    
                     <td>{{ $pembayaran->tagihan->kategori->nama_kategori ?? '-' }}</td>
                     <td>Rp {{ number_format($pembayaran->nominal_bayar, 0, ',', '.') }}</td>
                     <td>{{ \Carbon\Carbon::parse($pembayaran->created_at)->locale('id')->isoFormat('D MMMM YYYY HH:mm') }}</td>
@@ -154,13 +163,13 @@
                     </td>
                     <td>
                         <div class="d-flex gap-2 align-items-center">
-                            <!-- Tombol Lihat -->
+
                             <button type="button" class="btn btn-sm btn-info" data-bs-toggle="modal"
                                 data-bs-target="#detailPembayaranModal{{ $pembayaran->id }}">
                                 <i class="bi bi-eye"></i>
                             </button>
                         
-                            <!-- Tombol Cetak, Export XLS, Export PDF di luar modal -->
+                            <!-- Tombol Cetak, Export XLS, Export PDF \-->
                             @if($pembayaran->status !== 'lunas') 
                                 <a href="" target="_blank"
                                     class="btn btn-outline-primary {{ $pembayaran->status !== 'diterima' ? 'disabled' : '' }}">
@@ -203,9 +212,12 @@
                                                         <div class="col-md-6 border-end">
                                                             <h6><strong>Informasi Santri</strong></h6>
                                                             <div class="d-flex mb-3">
-                                                                <img src="{{ asset($pembayaran->santri->foto ?: 'assets/compiled/jpg/2.jpg') }}"
-                                                                    class="img-thumbnail rounded-circle me-3" alt="Foto Santri"
-                                                                    style="width: 80px; height: 80px; object-fit: cover;">
+                                                                <div class="avatar avatar-lg me-3">
+                                                                    <img src="{{ $pembayaran->santri->foto ? asset('storage/' . $pembayaran->santri->foto) : asset('assets/compiled/jpg/2.jpg') }}"
+                                                                         alt="Foto Santri"
+                                                                         class="rounded-circle"
+                                                                         style="width: 60px; height: 60px; object-fit: cover;">
+                                                                </div>
                                                                 <div>
                                                                     <p class="mb-1"><strong>{{ $pembayaran->santri->nama }}</strong></p>
                                                                     <p class="mb-1 text-muted">{{ $pembayaran->santri->program ?? '-' }}</p>

@@ -8,12 +8,25 @@ use Illuminate\Http\Request;
 
 class KonfirmasiPembayaranController extends Controller
 {
-    public function index()
+    public function index(Request $request)
     {
-        $diterima = Pembayaran::where('status', 'terima')->sum('nominal_bayar');
-        $menunggu = Pembayaran::where('status', 'pending')->count();
-        $ditolak  = Pembayaran::where('status', 'tolak')->count();
-        $total    = Pembayaran::sum('nominal_bayar');
+        $bulan = $request->input('bulan', now()->format('Y-m'));
+        $statusFilter = $request->input('status', 'all');
+    
+        // Filter berdasarkan bulan dan tahun dari created_at
+        $query = Pembayaran::whereYear('created_at', substr($bulan, 0, 4))
+                           ->whereMonth('created_at', substr($bulan, 5, 2));
+    
+        if ($statusFilter !== 'all') {
+            $query->where('status', $statusFilter);
+        }
+    
+        $baseQuery = clone $query;
+    
+        $diterima = (clone $query)->where('status', 'diterima')->sum('nominal_bayar');
+        $menunggu = (clone $query)->where('status', 'pending')->count();
+        $ditolak  = (clone $query)->where('status', 'tolak')->count();
+        $total    = (clone $query)->sum('nominal_bayar');
     
         // Data untuk chart
         $chartData = [
@@ -21,9 +34,12 @@ class KonfirmasiPembayaranController extends Controller
             'data' => [$diterima, $menunggu, $ditolak],
         ];
     
-        $pembayarans = Pembayaran::with('santri', 'tagihan')->latest()->get();
+        $pembayarans = $baseQuery->with('santri', 'tagihan')->latest()->get();
     
-        return view('back.konfirmasiPembayaran.index', compact('total', 'diterima', 'menunggu', 'ditolak', 'chartData', 'pembayarans'));
+        return view('back.konfirmasiPembayaran.index', compact(
+            'total', 'diterima', 'menunggu', 'ditolak', 'chartData',
+            'pembayarans', 'bulan', 'statusFilter'
+        ));
     }
 
 

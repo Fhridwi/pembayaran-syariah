@@ -77,6 +77,7 @@ class DashboardWaliController extends Controller
             }
         }
 
+
         $bankDetails = Bank::where('is_aktif', 1)->first();
 
         return view('front.dashboard.dashboard', [
@@ -109,12 +110,11 @@ class DashboardWaliController extends Controller
             $buktiPath = $request->file('bukti_bayar')->store('bukti_pembayaran', 'public');
         }
 
-        // Generate nomor pembayaran unik (misal: PMB20250507123456)
-        $nomorPembayaran = 'PMB' . now()->format('YmdHis') . strtoupper(Str::random(4));
+        $pembayaran = 'PMB-' . strtoupper(Str::random(8));
 
         Pembayaran::create([
             'id'                 => (string) Str::uuid(),
-            'nomor_pembayaran'  => $nomorPembayaran,
+            'nomor_pembayaran'  => $pembayaran,
             'tagihan_id'        => $request->tagihan_id,
             'santri_id'         => $request->santri_id,
             'user_id'           => Auth::id(),

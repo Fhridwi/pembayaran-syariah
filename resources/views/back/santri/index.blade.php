@@ -14,6 +14,15 @@
     <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
 </div>
 @endif
+@if ($errors->any())
+                    <div class="alert alert-danger">
+                        <ul>
+                            @foreach ($errors->all() as $error)
+                                <li>{{ $error }}</li>
+                            @endforeach
+                        </ul>
+                    </div>
+                @endif
 <div class="card">
     <div class="card-header d-flex justify-content-between item">
         <h5 class="card-title">Data Santri</h5>
@@ -47,7 +56,20 @@
                     <tr>
                         <td>{{ $loop->iteration }}</td>
                         <td>{{ $santri->nis }}</td>
-                        <td>{{ $santri->nama }}</td>
+                        <td>
+                            <div class="d-flex align-items-center">
+                                <div class="avatar avatar-lg me-3">
+                                    <img src="{{ $santri->foto ? asset('storage/' . $santri->foto) : asset('assets/compiled/jpg/2.jpg') }}"
+                                         alt="Foto Santri"
+                                         class="rounded-circle"
+                                         style="width: 60px; height: 60px; object-fit: cover;">
+                                </div>
+                                <div class="d-flex flex-column">
+                                    <span class="fw-bold">{{ $santri->nama }}</span>
+                                    <span class="text-muted small">{{ $santri->program ?? '-' }}</span>
+                                </div>
+                            </div>
+                        </td>
                         <td>{{ $santri->jenis_kelamin == 'L' ? 'Laki-laki' : 'Perempuan' }}</td>
                         <td>{{ $santri->angkatan }}</td>
                         <td>
