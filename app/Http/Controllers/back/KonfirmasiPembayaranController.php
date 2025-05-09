@@ -11,7 +11,7 @@ class KonfirmasiPembayaranController extends Controller
     public function index(Request $request)
     {
         $bulan = $request->input('bulan', now()->format('Y-m'));
-        $statusFilter = $request->input('status', 'all');
+        $statusFilter = $request->input('status', 'pending');
     
         // Filter berdasarkan bulan dan tahun dari created_at
         $query = Pembayaran::whereYear('created_at', substr($bulan, 0, 4))

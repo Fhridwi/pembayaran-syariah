@@ -182,9 +182,10 @@
                 <div class="bg-white p-5 rounded-xl shadow-sm border-l-4 {{ $statusConfig['border'] }} hover:shadow-md transition-all">
                     <div class="flex justify-between items-start mb-2">
                         <div>
-                            <h3 class="font-semibold text-gray-800">{{ $tagihan->kategori->nama }}
+                            <h3 class="font-semibold text-gray-800 text-md">{{ $tagihan->kategori->nama_kategori }}
                                 {{ $tagihan->bulan_tagihan }}
                             </h3>
+                            <p class="text-xs text-gray-500">{{ $tagihan->tahun->tahun_ajaran }}</p>
                             <p class="text-xs text-gray-500 mt-1">No. Tagihan: {{ $tagihan->id }}</p>
                         </div>
                         <span class="px-2 py-1 rounded-full text-xs font-medium {{ $statusConfig['bg'] }} {{ $statusConfig['text'] }} text-sm">

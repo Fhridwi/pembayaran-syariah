@@ -130,7 +130,7 @@
             @forelse($riwayat as $pembayaran)
                 @php
                     $statusClasses = [
-                        'diterima   ' => [
+                        'diterima' => [
                             'border' => 'border-green-500',
                             'bg' => 'bg-green-100',
                             'text' => 'text-green-600',
@@ -142,7 +142,7 @@
                             'text' => 'text-yellow-600',
                             'icon' => 'M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z'
                         ],
-                        'ditolak' => [
+                        'tolak' => [
                             'border' => 'border-red-500',
                             'bg' => 'bg-red-100',
                             'text' => 'text-red-600',
@@ -150,7 +150,7 @@
                         ]
                     ];
                     $status = $pembayaran->status;
-                    $statusConfig = $statusClasses[$status] ?? $statusClasses['pending'];
+                    $statusConfig = $statusClasses[$status] ?? $statusClasses['diterima'];
                 @endphp
 
                 <div class="bg-white p-5 rounded-xl shadow-sm border-l-4 {{ $statusConfig['border'] }} hover:shadow-md transition-shadow duration-200">
@@ -160,7 +160,7 @@
                                 {{ $pembayaran->tagihan->bulan_tagihan ?? 'Kategori Tidak Ditemukan' }}
                             </h3>
                             <p class="text-xs text-gray-500 mt-1">
-                                No. Transaksi: {{ $pembayaran->kode_pembayaran }}
+                                No. Transaksi: {{ $pembayaran->kode_bayar }}
                             </p>
                         </div>
                         <span class="status-badge {{ $statusConfig['bg'] }} {{ $statusConfig['text'] }}">

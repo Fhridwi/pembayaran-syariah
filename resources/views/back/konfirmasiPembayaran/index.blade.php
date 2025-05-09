@@ -112,7 +112,8 @@
     <table class="table table-striped" id="table1">
         <thead>
             <tr>
-                <th>Nomor</th>
+                <th>No</th>
+                <th>Nomor Pemb.</th>
                 <th>Santri</th>
                 <th>Tagihan</th>
                 <th>Nominal</th>
@@ -133,6 +134,7 @@
                 @endphp
                 
                 <tr>
+                    <td>{{ $loop->iteration }}</td>
                     <td>{{ $pembayaran->nomor_pembayaran }}</td>
                     <td>
                         <div class="d-flex align-items-center">
@@ -148,7 +150,7 @@
                             </div>
                         </div>
                     </td>                    
-                    <td>{{ $pembayaran->tagihan->kategori->nama_kategori ?? '-' }}</td>
+                    <td>{{ $pembayaran->tagihan->bulan_tagihan ?? '-' }}</td>
                     <td>Rp {{ number_format($pembayaran->nominal_bayar, 0, ',', '.') }}</td>
                     <td>{{ \Carbon\Carbon::parse($pembayaran->created_at)->locale('id')->isoFormat('D MMMM YYYY HH:mm') }}</td>
                     <td>

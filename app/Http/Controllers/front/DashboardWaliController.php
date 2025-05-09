@@ -19,15 +19,13 @@ class DashboardWaliController extends Controller
         $waliId = Auth::id();
         $filter = $request->query('filter', 'semua');
         $activeSantriId = $request->get('santri_id');
-
+    
         // Get active academic year
         $tahunAjaranAktif = TahunAjaran::where('status', true)->firstOrFail();
-
-        // Ambil semua santri milik wali dengan tagihan yang difilter berdasarkan tahun ajaran aktif
+    
         $santri = Santri::where('user_id', $waliId)
-            ->with(['tagihans' => function ($query) use ($filter, $tahunAjaranAktif) {
-                $query->with('kategori')
-                    ->where('tahun_id', $tahunAjaranAktif->id)
+            ->with(['tagihans' => function ($query) use ($filter) {
+                $query->with(['kategori', 'tahun']) 
                     ->when($filter === 'belum', function ($q) {
                         $q->where('status', 'belum');
                     })
@@ -41,32 +39,31 @@ class DashboardWaliController extends Controller
                     ->orderBy('jatuh_tempo', 'asc');
             }])
             ->get();
-
-        // Santri aktif berdasarkan ID
+    
         $activeSantri = $santri->firstWhere('id', $activeSantriId) ?? $santri->first();
-
-        // Hitung total tagihan untuk santri aktif
+    
         $totalTagihan = 0;
         $belumLunasCount = 0;
         $lunasCount = 0;
-
+    
         if ($activeSantri) {
             $tagihans = $activeSantri->tagihans;
-
-            // Filter tagihan yang sesuai dengan filter
+    
+            // Filter lokal setelah eager loading
             if ($filter === 'semua') {
-                $tagihans = $tagihans->take(10); // Ambil 10 tagihan pertama jika tidak ada filter
+                $tagihans = $tagihans->take(5);
             } elseif ($filter === 'belum') {
                 $tagihans = $tagihans->where('status', 'belum')->take(10);
             } elseif ($filter === 'lunas') {
                 $tagihans = $tagihans->where('status', 'lunas')->take(7);
             } elseif ($filter === 'bulan-ini') {
-                $tagihans = $tagihans->whereMonth('jatuh_tempo', now()->month)
-                    ->whereYear('jatuh_tempo', now()->year)
-                    ->take(10);
+                $tagihans = $tagihans->where(function ($q) {
+                    $q->whereMonth('jatuh_tempo', now()->month)
+                      ->whereYear('jatuh_tempo', now()->year);
+                })->take(10);
             }
-
-            // Hitung total tagihan dan jumlah tagihan
+    
+            // Hitung tagihan dan status
             foreach ($tagihans as $tagihan) {
                 if ($tagihan->status == 'belum') {
                     $totalTagihan += $tagihan->kategori->nominal ?? 0;
@@ -75,11 +72,18 @@ class DashboardWaliController extends Controller
                     $lunasCount++;
                 }
             }
+    
+            // Inject tahun ajaran ke nama tagihan untuk ditampilkan di blade
+            $activeSantri->tagihans = $tagihans->map(function ($tagihan) {
+                $tagihan->nama_ditampilkan = $tagihan->kategori->nama 
+                    . ' ' . ($tagihan->bulan_tagihan ?? '') 
+                    . ' (' . ($tagihan->tahunAjaran->tahun ?? '-') . ')';
+                return $tagihan;
+            });
         }
-
-
+    
         $bankDetails = Bank::where('is_aktif', 1)->first();
-
+    
         return view('front.dashboard.dashboard', [
             'santri' => $santri,
             'totalTagihan' => $totalTagihan,
@@ -88,9 +92,10 @@ class DashboardWaliController extends Controller
             'activeSantri' => $activeSantri,
             'activeFilter' => $filter,
             'tahunAjaran' => $tahunAjaranAktif,
-            'bank'      => $bankDetails
+            'bank' => $bankDetails
         ]);
     }
+    
 
     public function storePembayaran(Request $request)
     {

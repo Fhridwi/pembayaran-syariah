@@ -17,7 +17,6 @@ class RiwayatPembayaranWaliController extends Controller
     {
         $waliId = Auth::id();
 
-        // Ambil santri aktif dengan eager loading
         $santrisAktif = Santri::with(['tagihans' => function($query) {
             $query->with(['kategori']);
         }])
@@ -27,9 +26,8 @@ class RiwayatPembayaranWaliController extends Controller
 
         $activeSantri = $santrisAktif->firstWhere('id', $request->santri_id) ?? $santrisAktif->first();
 
-        // Query pembayaran dengan relasi yang tepat
         $query = Pembayaran::with([
-            'tagihan.kategori', // Pastikan relasi ini benar di model Tagihan
+            'tagihan.kategori', 
             'user'
         ])
         ->when($activeSantri, function($q) use ($activeSantri) {
@@ -39,7 +37,6 @@ class RiwayatPembayaranWaliController extends Controller
         })
         ->latest();
 
-        // Filter status
         $activeFilter = $request->filter ?? 'semua';
         $allowedFilters = ['lunas' => 'diterima', 'diproses' => 'pending', 'ditolak' => 'tolak'];
         
@@ -47,7 +44,7 @@ class RiwayatPembayaranWaliController extends Controller
             $query->where('status', $allowedFilters[$activeFilter]);
         }
 
-        $riwayat = $query->paginate(10);
+        $riwayat = $query->paginate(6);
 
         $tahunAjaran = TahunAjaran::where('status', true)->first();
 
